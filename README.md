@@ -1,7 +1,7 @@
-# lab03Part2 -- kafka-spring -- Eye-tracking Use-Case
+# lab03Part2 - Kafka-Spring with The Eye Tracking Use-Case
 
 - This lab is based on _Lab03Part1-kafka-spring_ (https://github.com/scs-edpo/lab03-kafka-spring) and _Lab02Part2kafka-EyeTracking_ (https://github.com/scs-edpo/lab02Part2-kafka-EyeTracking). 
-- We extend _[Lab03Part1-kafka-spring](https://github.com/scs-edpo/lab03-kafka-spring)_ with the eye-tracking use case introduced in _[Lab02Part2kafka-EyeTracking](https://github.com/scs-edpo/lab02Part2-kafka-EyeTracking)_. Therein, we adapt the existing source-code to implement the eye tracking and clicks tracking producers and consumers using Kafka and Spring
+- We extend _[Lab03Part1-kafka-spring](https://github.com/scs-edpo/lab03-kafka-spring)_ with the eye tracking use case introduced in _[Lab02Part2kafka-EyeTracking](https://github.com/scs-edpo/lab02Part2-kafka-EyeTracking)_. Therein, we adapt the existing source-code to implement the eye tracking and clicks tracking producers and consumers using Kafka and Spring
 - The procedure to run the code is similar to _Lab03Part1-kafka-spring_. We recommend importing the project to  IntelliJ and let the IDE handle everything
 - Note that only the new procedures are described in this lab
 
@@ -91,7 +91,7 @@ Same as in _[Lab03Part1-kafka-spring](https://github.com/scs-edpo/lab03-kafka-sp
 
 The Rest API Controller in **[ch.unisg.kafka.spring.controllers.RestController.java](src/main/java/ch/unisg/kafka/spring/controllers/RestController.java)** allows for 2 types of GET requests allowing respectively to start the eye tracking and click tracking producers as shown in the following code fragments (see endpoints in Section [API Endpoints](###API Endpoints)):
 
-**For eye-tracking**
+**For eye tracking**
 ```Java
 @GetMapping(value = "/eyeTracking")
 public String eyeTrackingCall(@RequestParam("action") String action) {
@@ -118,7 +118,7 @@ public String eyeTrackingCall(@RequestParam("action") String action) {
 
 ```
         
-**For Clicks Tracking**
+**For clicks tracking**
 ```Java
 @GetMapping(value = "/clickTracking")
 public String ClickTrackingCall(@RequestParam("action") String action) {
@@ -146,7 +146,7 @@ public String ClickTrackingCall(@RequestParam("action") String action) {
 ```
 
 
-7. #### Publishing Messages to a Kafka Topic
+6. #### Publishing Messages to a Kafka Topic
  - In the **[ch.unisg.kafka.spring.service.ProducerService.java](src/main/java/ch/unisg/kafka/spring/service/ProducerService.java)**, two topics are defined
  
  ```Java
@@ -230,7 +230,7 @@ public String ClickTrackingCall(@RequestParam("action") String action) {
 
    ```
 
-8. #### Consuming Messages from a Kafka Topic
+7. #### Consuming Messages from a Kafka Topic
  - In the **ch.unisg.kafka.spring.service.ConsumerService.java** class, we are consuming messages from topics using the `@KafkaListener` annotation.
  - The approach is the same as the one explained in _[Lab03Part1-kafka-spring](https://github.com/scs-edpo/lab03-kafka-spring)_
 
