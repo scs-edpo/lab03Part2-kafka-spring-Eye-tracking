@@ -39,7 +39,7 @@ public class RestController {
     }
 
     @GetMapping(value = "/clickTracking")
-    public String ClickTrackingCall(@RequestParam("action") String action) {
+    public String clickTrackingCall(@RequestParam("action") String action) {
         String output = "";
 
         if(action.equals("start") & !singleClickTrackingThreadStart) {
