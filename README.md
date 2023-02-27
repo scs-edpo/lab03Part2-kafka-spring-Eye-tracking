@@ -71,7 +71,7 @@ Same as in _[Lab03Part1-kafka-spring](https://github.com/scs-edpo/lab03-kafka-sp
     ```
    **[ch.unisg.kafka.spring.model.Clicks.java](src/main/java/ch/unisg/kafka/spring/model/Clicks.java)**
     ```Java
-   public class Gaze implements Serializable {
+   public class Clicks implements Serializable {
 
     int eventID;
     long timestamp;
