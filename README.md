@@ -258,7 +258,7 @@ public String clickTrackingCall(@RequestParam("action") String action) {
      }
      ```
   
-###API Endpoints
+### API Endpoints
 
 > Starting eye tracking: **GET Mapping** http://localhost:8080/kafka/eyeTracking?action=start
 
