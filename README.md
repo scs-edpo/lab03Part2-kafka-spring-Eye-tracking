@@ -146,7 +146,7 @@ public String clickTrackingCall(@RequestParam("action") String action) {
 ```
 
 
-6. #### Publishing Messages to a Kafka Topic
+6. #### Publishing Messages to Kafka Topics
  - In the **[ch.unisg.kafka.spring.service.ProducerService.java](src/main/java/ch/unisg/kafka/spring/service/ProducerService.java)**, two topics are defined
  
  ```Java
