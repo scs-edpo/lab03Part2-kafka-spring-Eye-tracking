@@ -1,6 +1,6 @@
 package ch.unisg.kafka.spring.service;
 
-import ch.unisg.kafka.spring.model.Clicks;
+import ch.unisg.kafka.spring.model.Click;
 import ch.unisg.kafka.spring.model.Gaze;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,7 +25,7 @@ public class ProducerService<T> {
     private KafkaTemplate<String, Gaze> kafkaTemplateGaze;
 
     @Autowired
-    private KafkaTemplate<String, Clicks> kafkaTemplateClick;
+    private KafkaTemplate<String, Click> kafkaTemplateClick;
 
 
     public void startEyeTracker() {
@@ -71,7 +71,7 @@ public class ProducerService<T> {
             }
 
             // generate a random click event using constructor  Clicks(int eventID, long timestamp, int xPosition, int yPosition, String clickedElement)
-            Clicks clickEvent = new Clicks(counter,System.nanoTime(), getRandomNumber(0, 1920), getRandomNumber(0, 1080), "EL"+getRandomNumber(1, 20));
+            Click clickEvent = new Click(counter,System.nanoTime(), getRandomNumber(0, 1920), getRandomNumber(0, 1080), "EL"+getRandomNumber(1, 20));
 
             // send gaze event
             kafkaTemplateClick.send(clickEventsTopic, clickEvent);

@@ -1,6 +1,6 @@
 package ch.unisg.kafka.spring.service;
 
-import ch.unisg.kafka.spring.model.Clicks;
+import ch.unisg.kafka.spring.model.Click;
 import ch.unisg.kafka.spring.model.Gaze;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,7 +24,7 @@ public class ConsumerService {
     }
 
     @KafkaListener(topics = {"${spring.kafka.clickEvents-topic}"}, containerFactory = "kafkaListenerJsonFactory", groupId = "group_id")
-    public void consumeClickEvent(Clicks clickEvent) {
+    public void consumeClickEvent(Click clickEvent) {
 
         logger.info("**** -> Consumed click event :: {}", clickEvent);
 

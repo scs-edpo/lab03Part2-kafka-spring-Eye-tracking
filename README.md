@@ -52,7 +52,7 @@ Same as in _[Lab03Part1-kafka-spring](https://github.com/scs-edpo/lab03Part1-kaf
 
 3. #### Model classes
     
-   We have two model classes: **Gaze** and **Clicks**
+   We have two model classes: **Gaze** and **Click**
 
    Both model classes will be used to create objects that will publish to the aferomentioned Kafka topics (gazeEvents-topic, clickEvents-topic) using `KafkaTemplate` and consume using `@KafkaListener` from either of the topics.  
    **[ch.unisg.kafka.spring.model.Gaze.java](src/main/java/ch/unisg/kafka/spring/model/Gaze.java)**
@@ -69,9 +69,9 @@ Same as in _[Lab03Part1-kafka-spring](https://github.com/scs-edpo/lab03Part1-kaf
    
    }
     ```
-   **[ch.unisg.kafka.spring.model.Clicks.java](src/main/java/ch/unisg/kafka/spring/model/Clicks.java)**
+   **[ch.unisg.kafka.spring.model.Click.java](src/main/java/ch/unisg/kafka/spring/model/Click.java)**
     ```Java
-   public class Clicks implements Serializable {
+   public class Click implements Serializable {
 
     int eventID;
     long timestamp;
@@ -165,7 +165,7 @@ public String clickTrackingCall(@RequestParam("action") String action) {
     private KafkaTemplate<String, Gaze> kafkaTemplateGaze;
 
     @Autowired
-    private KafkaTemplate<String, Clicks> kafkaTemplateClick;
+    private KafkaTemplate<String, Click> kafkaTemplateClick;
     
 ```
    
@@ -215,8 +215,8 @@ public String clickTrackingCall(@RequestParam("action") String action) {
                 Thread.currentThread().interrupt();
             }
 
-            // generate a random click event using constructor  Clicks(int eventID, long timestamp, int xPosition, int yPosition, String clickedElement)
-            Clicks clickEvent = new Clicks(counter,System.nanoTime(), getRandomNumber(0, 1920), getRandomNumber(0, 1080), "EL"+getRandomNumber(1, 20));
+            // generate a random click event using constructor  Click(int eventID, long timestamp, int xPosition, int yPosition, String clickedElement)
+            Click clickEvent = new Click(counter,System.nanoTime(), getRandomNumber(0, 1920), getRandomNumber(0, 1080), "EL"+getRandomNumber(1, 20));
 
             // send gaze event
             kafkaTemplateClick.send(clickEventsTopic, clickEvent);
@@ -246,10 +246,10 @@ public String clickTrackingCall(@RequestParam("action") String action) {
 
    }
      ```
- - Clicks events consumer
+ - Click events consumer
      ```Java
      @KafkaListener(topics = {"${spring.kafka.clickEvents-topic}"}, containerFactory = "kafkaListenerJsonFactory", groupId = "group_id")
-     public void consumeClickEvent(Clicks clickEvent) {
+     public void consumeClickEvent(Click clickEvent) {
 
          logger.info("**** -> Consumed click event :: {}", clickEvent);
 

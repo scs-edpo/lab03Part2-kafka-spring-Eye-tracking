@@ -2,7 +2,7 @@ package ch.unisg.kafka.spring.model;
 
 import java.io.Serializable;
 
-public class Clicks  implements Serializable {
+public class Click implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -12,11 +12,11 @@ public class Clicks  implements Serializable {
     int yPosition; // position of the click within the y-coordinate of the screen
     String clickedElement;
 
-    public Clicks() {
+    public Click() {
 
     }
 
-    public Clicks(int eventID, long timestamp, int xPosition, int yPosition, String clickedElement) {
+    public Click(int eventID, long timestamp, int xPosition, int yPosition, String clickedElement) {
         this.eventID = eventID;
         this.timestamp = timestamp;
         this.xPosition = xPosition;
