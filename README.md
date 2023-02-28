@@ -1,7 +1,7 @@
 # lab03Part2 - Kafka-Spring with The Eye Tracking Use-Case
 
-- This lab is based on _Lab03Part1-kafka-spring_ (https://github.com/scs-edpo/lab03-kafka-spring) and _Lab02Part2kafka-EyeTracking_ (https://github.com/scs-edpo/lab02Part2-kafka-EyeTracking). 
-- We extend _[Lab03Part1-kafka-spring](https://github.com/scs-edpo/lab03-kafka-spring)_ with the eye tracking use case introduced in _[Lab02Part2kafka-EyeTracking](https://github.com/scs-edpo/lab02Part2-kafka-EyeTracking)_. Herein, we adapt the existing source-code to implement the eye tracking and clicks tracking producers and consumers using Kafka and Spring
+- This lab is based on _Lab03Part1-kafka-spring_ (https://github.com/scs-edpo/lab03Part1-kafka-spring) and _Lab02Part2kafka-EyeTracking_ (https://github.com/scs-edpo/lab02Part2-kafka-EyeTracking). 
+- We extend _[Lab03Part1-kafka-spring](https://github.com/scs-edpo/lab03Part1-kafka-spring)_ with the eye tracking use case introduced in _[Lab02Part2kafka-EyeTracking](https://github.com/scs-edpo/lab02Part2-kafka-EyeTracking)_. Herein, we adapt the existing source-code to implement the eye tracking and clicks tracking producers and consumers using Kafka and Spring
 - The procedure to run the code is similar to _Lab03Part1-kafka-spring_. We recommend importing the project to  IntelliJ and let the IDE handle everything
 - Note that only the new procedures are described in this lab
 
@@ -25,7 +25,7 @@ on the Terminal.
 ### Code Snippets
 
 1. #### Maven Dependencies
-Same as in _[Lab03Part1-kafka-spring](https://github.com/scs-edpo/lab03-kafka-spring)_
+Same as in _[Lab03Part1-kafka-spring](https://github.com/scs-edpo/lab03Part1-kafka-spring)_
 
 2. #### Properties file
    Some properties are in the **[application.yml](src/main/resources/application.yml)** file, e.g., bootstrap servers, group id and topics.  
@@ -85,7 +85,7 @@ Same as in _[Lab03Part1-kafka-spring](https://github.com/scs-edpo/lab03-kafka-sp
     ```
 
 4. #### Kafka Configuration
-Same as in _[Lab03Part1-kafka-spring](https://github.com/scs-edpo/lab03-kafka-spring)_
+Same as in _[Lab03Part1-kafka-spring](https://github.com/scs-edpo/lab03Part1-kafka-spring)_
 
 5. #### Rest Controller
 
@@ -170,7 +170,7 @@ public String clickTrackingCall(@RequestParam("action") String action) {
 ```
    
  - The gaze and clicks events are generated in the same way as explained in _[Lab02Part2kafka-EyeTracking](https://github.com/scs-edpo/lab02Part2-kafka-EyeTracking)_ 
- - These events are published following the same procedure as explained in _[Lab03Part1-kafka-spring](https://github.com/scs-edpo/lab03-kafka-spring)_
+ - These events are published following the same procedure as explained in _[Lab03Part1-kafka-spring](https://github.com/scs-edpo/lab03Part1-kafka-spring)_
    
 
  - The procedure for generating gaze events and sending them:
