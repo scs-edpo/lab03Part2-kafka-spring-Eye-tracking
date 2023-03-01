@@ -89,9 +89,9 @@ Same as in _[Lab03Part1-kafka-spring](https://github.com/scs-edpo/lab03Part1-kaf
 
 5. #### Rest Controller
 
-The Rest API Controller in **[ch.unisg.kafka.spring.controllers.RestController.java](src/main/java/ch/unisg/kafka/spring/controllers/RestController.java)** allows for 2 types of GET requests allowing respectively to start the eye tracking and click tracking producers as shown in the following code fragments (see endpoints in Section [API Endpoints](###API Endpoints)):
+The Rest API Controller in **[ch.unisg.kafka.spring.controllers.RestController.java](src/main/java/ch/unisg/kafka/spring/controllers/RestController.java)** allows for 2 types of GET requests allowing respectively to start the eye tracking and click tracking producers as shown in the following code fragments:
 
-**For eye tracking**
+**For eye tracking** endpoint: http://localhost:8080/kafka/eyeTracking?action=start 
 ```Java
 @GetMapping(value = "/eyeTracking")
 public String eyeTrackingCall(@RequestParam("action") String action) {
@@ -118,7 +118,7 @@ public String eyeTrackingCall(@RequestParam("action") String action) {
 
 ```
         
-**For clicks tracking**
+**For clicks tracking** endpoint: http://localhost:8080/kafka/clickTracking?action=start
 ```Java
 @GetMapping(value = "/clickTracking")
 public String clickTrackingCall(@RequestParam("action") String action) {
@@ -176,10 +176,11 @@ public String clickTrackingCall(@RequestParam("action") String action) {
  - The procedure for generating gaze events and sending them:
      
    ```Java
-     // Define a counter which will be used as an eventID
-     int counter = 0;
+     public void startEyeTracker() {    
+        // Define a counter which will be used as an eventID
+        int counter = 0;
 
-     while(true) {
+        while(true) {
 
             // sleep for 8 ms
             try {
@@ -196,38 +197,40 @@ public String clickTrackingCall(@RequestParam("action") String action) {
             kafkaTemplateGaze.send(gazeEventsTopic, gazeEvent);
 
             counter++;
-     }
+        }
+   }
    ```
 
  - The procedure for generating click events and sending them:
 
    ```Java
- 
-        // Define a counter which will be used as an eventID
-        int counter = 0;
+   
+         public void startClicksTracker() { 
+            // Define a counter which will be used as an eventID
+            int counter = 0;
 
-        while(true) {
+            while(true) {
 
-            // sleep for a random time interval between 500 ms and 5000 ms
-            try {
-                Thread.sleep(getRandomNumber(500, 5000));
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
+                // sleep for a random time interval between 500 ms and 5000 ms
+                try {
+                    Thread.sleep(getRandomNumber(500, 5000));
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                }
+
+                // generate a random click event using constructor  Click(int eventID, long timestamp, int xPosition, int yPosition, String clickedElement)
+                Click clickEvent = new Click(counter,System.nanoTime(), getRandomNumber(0, 1920), getRandomNumber(0, 1080), "EL"+getRandomNumber(1, 20));
+
+                // send gaze event
+                kafkaTemplateClick.send(clickEventsTopic, clickEvent);
+
+                logger.info("#### -> Publishing click event :: {}",clickEvent);
+
+                // increment counter i.e., eventID
+                counter++;
+
+                }
             }
-
-            // generate a random click event using constructor  Click(int eventID, long timestamp, int xPosition, int yPosition, String clickedElement)
-            Click clickEvent = new Click(counter,System.nanoTime(), getRandomNumber(0, 1920), getRandomNumber(0, 1080), "EL"+getRandomNumber(1, 20));
-
-            // send gaze event
-            kafkaTemplateClick.send(clickEventsTopic, clickEvent);
-
-            logger.info("#### -> Publishing click event :: {}",clickEvent);
-
-            // increment counter i.e., eventID
-            counter++;
-
-        }
-
    ```
 
 7. #### Consuming Messages from a Kafka Topic
