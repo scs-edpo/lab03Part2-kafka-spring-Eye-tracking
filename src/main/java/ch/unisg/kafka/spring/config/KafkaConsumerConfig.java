@@ -53,7 +53,7 @@ public class KafkaConsumerConfig {
     public <T> ConcurrentKafkaListenerContainerFactory<?, ?> kafkaListenerJsonFactory() {
         ConcurrentKafkaListenerContainerFactory<String, Gaze> factory = new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory());
-        factory.setMessageConverter(new StringJsonMessageConverter());
+        factory.setRecordMessageConverter(new StringJsonMessageConverter());
         factory.setBatchListener(true);
         return factory;
     }
