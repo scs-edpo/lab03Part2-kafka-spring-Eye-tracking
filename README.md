@@ -54,7 +54,7 @@ Same as in _[Lab03Part1-kafka-spring](https://github.com/scs-edpo/lab03Part1-kaf
     
    We have two model classes: **Gaze** and **Click**
 
-   Both model classes will be used to create objects that will publish to the aferomentioned Kafka topics (gazeEvents-topic, clickEvents-topic) using `KafkaTemplate` and consume using `@KafkaListener` from either of the topics.  
+   Both model classes will be used to create events that will be published to the aferomentioned Kafka topics (gazeEvents-topic, clickEvents-topic) using `KafkaTemplate` and consumed using `@KafkaListener` from either of the topics.  
    **[ch.unisg.kafka.spring.model.Gaze.java](src/main/java/ch/unisg/kafka/spring/model/Gaze.java)**
     ```Java
    public class Gaze implements Serializable {
