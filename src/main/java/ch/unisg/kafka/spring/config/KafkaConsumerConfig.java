@@ -13,6 +13,7 @@ import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
 import org.springframework.kafka.listener.KafkaListenerErrorHandler;
+import org.springframework.kafka.support.converter.RecordMessageConverter;
 import org.springframework.kafka.support.converter.StringJsonMessageConverter;
 import org.springframework.kafka.support.serializer.JsonDeserializer;
 
@@ -21,7 +22,7 @@ import java.util.Map;
 
 @Configuration
 @EnableKafka
-public class KafkaConsumerConfig {
+public class KafkaConsumerConfig<T> {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -36,25 +37,42 @@ public class KafkaConsumerConfig {
     // Json Consumer
     // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     @Bean
-    public ConsumerFactory<String, Gaze> consumerFactory() {
-       Map<String, Object> config = new HashMap<>();
+    public ConsumerFactory<String, T> consumerFactory() {
+        Map<String, Object> config = new HashMap<>();
 
         config.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
         config.put(ConsumerConfig.GROUP_ID_CONFIG, groupId);
         config.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
         config.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, false);
         config.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
-        config.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
 
-        return new DefaultKafkaConsumerFactory<>(config, new StringDeserializer(), new JsonDeserializer<>(Gaze.class));
+        // Creating a JsonDeserializer for the value, using the generic type T
+        JsonDeserializer<T> valueDeserializer = new JsonDeserializer<>();
+        // Adding trusted packages for deserialization to prevent potential security issues
+        valueDeserializer.addTrustedPackages("*");
+
+        // Setting the value deserializer class for Kafka consumer
+        config.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, valueDeserializer);
+
+        // Creating and returning a DefaultKafkaConsumerFactory with the specified configurations
+        return new DefaultKafkaConsumerFactory<>(config, new StringDeserializer(), valueDeserializer);
     }
 
     @Bean
-    public <T> ConcurrentKafkaListenerContainerFactory<?, ?> kafkaListenerJsonFactory() {
-        ConcurrentKafkaListenerContainerFactory<String, Gaze> factory = new ConcurrentKafkaListenerContainerFactory<>();
+    public ConcurrentKafkaListenerContainerFactory<String, T> kafkaListenerJsonFactory() {
+
+        // Creating a ConcurrentKafkaListenerContainerFactory instance
+        ConcurrentKafkaListenerContainerFactory<String, T> factory = new ConcurrentKafkaListenerContainerFactory<>();
+        // Setting the ConsumerFactory to be used by the listener container
         factory.setConsumerFactory(consumerFactory());
-        factory.setRecordMessageConverter(new StringJsonMessageConverter());
+
+        // Creating a message converter to convert Kafka records into application-specific data types
+        RecordMessageConverter messageConverter = new StringJsonMessageConverter();
+        // Setting the message converter for the listener container
+        factory.setRecordMessageConverter(messageConverter);
+        // Enabling batch listening to process messages in batches
         factory.setBatchListener(true);
+
         return factory;
     }
 
