@@ -85,7 +85,7 @@ Same as in _[Lab03Part1-kafka-spring](https://github.com/scs-edpo/lab03Part1-kaf
     ```
 
 4. #### Kafka Configuration
-Same as in _[Lab03Part1-kafka-spring](https://github.com/scs-edpo/lab03Part1-kafka-spring)_
+Similar to _[Lab03Part1-kafka-spring](https://github.com/scs-edpo/lab03Part1-kafka-spring)_
 
 5. #### Rest Controller
 
