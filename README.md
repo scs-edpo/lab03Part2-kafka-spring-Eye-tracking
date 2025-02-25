@@ -11,7 +11,7 @@ The root folder has the [docker-compose.yml](docker-compose.yml) file with the K
 
 Simply run 
   ```
-  $ docker-compose up
+  $ docker compose up
   ```
 to start Kafka.
 
