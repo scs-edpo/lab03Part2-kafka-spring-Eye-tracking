@@ -26,10 +26,10 @@ public class KafkaConsumerConfig<T> {
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    @Value("${spring.kafka.consumer.bootstrap-servers: localhost:9092}")
+    @Value("${spring.kafka.consumer.bootstrap-servers}")
     private String bootstrapServers;
 
-    @Value("${spring.kafka.consumer.group-id: group_id}")
+    @Value("${spring.kafka.consumer.group-id}")
     private String groupId;
 
 
@@ -76,39 +76,5 @@ public class KafkaConsumerConfig<T> {
         return factory;
     }
 
-
-    // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    // String Consumer
-    // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    @Bean
-    public ConsumerFactory<String, String> stringConsumerFactory() {
-        Map<String, Object> config = new HashMap<>();
-
-        config.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
-        config.put(ConsumerConfig.GROUP_ID_CONFIG, groupId);
-        config.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
-        config.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, false);
-        config.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
-        config.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
-
-        return new DefaultKafkaConsumerFactory<>(config, new StringDeserializer(), new StringDeserializer());
-    }
-
-    @Bean
-    public ConcurrentKafkaListenerContainerFactory<String, String> kafkaListenerStringFactory() {
-        ConcurrentKafkaListenerContainerFactory<String, String> factory = new ConcurrentKafkaListenerContainerFactory<>();
-        factory.setConsumerFactory(stringConsumerFactory());
-        factory.setBatchListener(true);
-        return factory;
-    }
-
-
-    @Bean
-    public KafkaListenerErrorHandler myTopicErrorHandler() {
-        return (m, e) -> {
-            logger.error("Got an error {}", e.getMessage());
-            return "some info about the failure";
-        };
-    }
 
 }

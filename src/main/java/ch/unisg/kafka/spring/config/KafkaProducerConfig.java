@@ -17,7 +17,7 @@ import java.util.Map;
 @Configuration
 public class KafkaProducerConfig {
 
-    @Value("${spring.kafka.producer.bootstrap-servers: localhost:9092}")
+    @Value("${spring.kafka.producer.bootstrap-servers}")
     private String bootstrapServers;
 
     // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -36,33 +36,10 @@ public class KafkaProducerConfig {
         return new DefaultKafkaProducerFactory<>(configProps);
     }
 
-
-    @Primary
     @Bean
     public <T> KafkaTemplate<String, T> kafkaTemplate() {
         return new KafkaTemplate<>(producerFactory());
     }
 
-    // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    // String Producer
-    // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    @Bean
-    public ProducerFactory<String, String> producerStringFactory() {
-        Map<String, Object> configProps = new HashMap<>();
-
-        configProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
-        configProps.put(ProducerConfig.ACKS_CONFIG, "all");
-        configProps.put(ProducerConfig.RETRIES_CONFIG, 3);
-        configProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
-        configProps.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
-
-        return new DefaultKafkaProducerFactory<>(configProps);
-    }
-
-
-    @Bean
-    public KafkaTemplate<String, String> kafkaStringTemplate() {
-        return new KafkaTemplate<>(producerStringFactory());
-    }
 
 }
